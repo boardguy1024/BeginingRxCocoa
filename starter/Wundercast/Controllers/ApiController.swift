@@ -46,7 +46,7 @@ class ApiController {
 
   /// The api key to communicate with openweathermap.org
   /// Create you own on https://home.openweathermap.org/users/sign_up
-  private let apiKey = "[YOUR KEY]"
+  private let apiKey = "1e1dd995c65d76a8e5dd81a53af89ee1"
 
   /// API base URL
   let baseURL = URL(string: "http://api.openweathermap.org/data/2.5")!
@@ -99,7 +99,7 @@ class ApiController {
 
     let session = URLSession.shared
 
-    return session.rx.data(request: request).map { JSON(data: $0) }
+    return session.rx.data(request: request).map { try JSON(data: $0) }
   }
 
 }

@@ -40,7 +40,12 @@ class ViewController: UIViewController {
         
         style()
         
-        ApiController.shared.currentWeather(city: "RxSwift")
+        searchCityName.rx.text
+            .filter { ($0 ?? "").count > 0 }
+            .flatMap { text in
+                return ApiController.shared.currentWeather(city: text ?? "Error")
+                    .catchErrorJustReturn(ApiController.Weather.empty)
+            }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { data in
                 self.tempLabel.text = "\(data.temperature)° C"
@@ -49,7 +54,6 @@ class ViewController: UIViewController {
                 self.cityNameLabel.text = data.cityName
             })
             .disposed(by: bag)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

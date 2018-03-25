@@ -23,6 +23,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import CoreLocation
 
 class ViewController: UIViewController {
     
@@ -32,7 +33,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var iconLabel: UILabel!
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var geoLocationButton: UIButton!
     
+    let locationManager = CLLocationManager()
     private let bag = DisposeBag()
     
     override func viewDidLoad() {
@@ -40,6 +43,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         style()
+        
         
         let searchInput = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
             .map { self.searchCityName.text }
